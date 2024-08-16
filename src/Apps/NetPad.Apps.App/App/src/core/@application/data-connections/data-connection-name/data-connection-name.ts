@@ -14,6 +14,8 @@ export class DataConnectionName {
                 return "/img/sqlite.png";
             case "MySQL":
                 return "/img/mysql.png";
+            case "MariaDb":
+                return "/img/mariadb.png"
             default:
                 return "";
         }

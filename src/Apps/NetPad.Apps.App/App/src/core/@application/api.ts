@@ -3530,7 +3530,8 @@ export abstract class DataConnection implements IDataConnection {
             result.init(data);
             return result;
         }
-        if (data["discriminator"] === "MySqlDatabaseConnection") {
+        if (data["discriminator"] === "MySqlDatabaseConnection" || 
+            data["discriminator"] === "MariaDbDatabaseConnection") {
             let result = new MySqlDatabaseConnection();
             result.init(data);
             return result;
@@ -3558,7 +3559,7 @@ export interface IDataConnection {
     type: DataConnectionType;
 }
 
-export type DataConnectionType = "MSSQLServer" | "PostgreSQL" | "SQLite" | "MySQL";
+export type DataConnectionType = "MSSQLServer" | "PostgreSQL" | "SQLite" | "MySQL" | "MariaDb";
 
 export class DataConnectionTestResult implements IDataConnectionTestResult {
     success!: boolean;
@@ -5382,6 +5383,7 @@ export class Types implements ITypes {
     postgreSqlDatabaseConnection?: PostgreSqlDatabaseConnection | undefined;
     sqLiteDatabaseConnection?: SQLiteDatabaseConnection | undefined;
     mySqlDatabaseConnection?: MySqlDatabaseConnection | undefined;
+    mariaDbDatabaseConnection?: MariaDbDatabaseConnection | undefined;
 
     constructor(data?: ITypes) {
         if (data) {
@@ -5431,6 +5433,7 @@ export class Types implements ITypes {
             this.postgreSqlDatabaseConnection = _data["postgreSqlDatabaseConnection"] ? PostgreSqlDatabaseConnection.fromJS(_data["postgreSqlDatabaseConnection"]) : <any>undefined;
             this.sqLiteDatabaseConnection = _data["sqLiteDatabaseConnection"] ? SQLiteDatabaseConnection.fromJS(_data["sqLiteDatabaseConnection"]) : <any>undefined;
             this.mySqlDatabaseConnection = _data["mySqlDatabaseConnection"] ? MySqlDatabaseConnection.fromJS(_data["mySqlDatabaseConnection"]) : <any>undefined;
+            this.mariaDbDatabaseConnection = _data["mariaDbDatabaseConnection"] ? MariaDbDatabaseConnection.fromJS(_data["mariaDbDatabaseConnection"]) : <any>undefined;
         }
     }
 
@@ -5480,6 +5483,7 @@ export class Types implements ITypes {
         data["postgreSqlDatabaseConnection"] = this.postgreSqlDatabaseConnection ? this.postgreSqlDatabaseConnection.toJSON() : <any>undefined;
         data["sqLiteDatabaseConnection"] = this.sqLiteDatabaseConnection ? this.sqLiteDatabaseConnection.toJSON() : <any>undefined;
         data["mySqlDatabaseConnection"] = this.mySqlDatabaseConnection ? this.mySqlDatabaseConnection.toJSON() : <any>undefined;
+        data["mariaDbDatabaseConnection"] = this.mariaDbDatabaseConnection ? this.mariaDbDatabaseConnection.toJSON() : <any>undefined;
         return data;
     }
 
@@ -5529,6 +5533,7 @@ export interface ITypes {
     postgreSqlDatabaseConnection?: PostgreSqlDatabaseConnection | undefined;
     sqLiteDatabaseConnection?: SQLiteDatabaseConnection | undefined;
     mySqlDatabaseConnection?: MySqlDatabaseConnection | undefined;
+    mariaDbDatabaseConnection?: MariaDbDatabaseConnection | undefined;
 }
 
 export type YesNoCancel = "Yes" | "No" | "Cancel";
@@ -7389,7 +7394,8 @@ export abstract class DatabaseConnection extends DataConnection implements IData
             result.init(data);
             return result;
         }
-        if (data["discriminator"] === "MySqlDatabaseConnection") {
+        if (data["discriminator"] === "MySqlDatabaseConnection" ||
+            data["discriminator"] === "MariaDbDatabaseConnection") {
             let result = new MySqlDatabaseConnection();
             result.init(data);
             return result;
@@ -7462,7 +7468,8 @@ export abstract class EntityFrameworkDatabaseConnection extends DatabaseConnecti
             result.init(data);
             return result;
         }
-        if (data["discriminator"] === "MySqlDatabaseConnection") {
+        if (data["discriminator"] === "MySqlDatabaseConnection" ||
+            data["discriminator"] === "MariaDbDatabaseConnection") {
             let result = new MySqlDatabaseConnection();
             result.init(data);
             return result;
@@ -7516,7 +7523,8 @@ export abstract class EntityFrameworkRelationalDatabaseConnection extends Entity
             result.init(data);
             return result;
         }
-        if (data["discriminator"] === "MySqlDatabaseConnection") {
+        if (data["discriminator"] === "MySqlDatabaseConnection" ||
+            data["discriminator"] === "MariaDatabaseConnection") {
             let result = new MySqlDatabaseConnection();
             result.init(data);
             return result;
@@ -7720,6 +7728,41 @@ export class MySqlDatabaseConnection extends EntityFrameworkRelationalDatabaseCo
 }
 
 export interface IMySqlDatabaseConnection extends IEntityFrameworkRelationalDatabaseConnection {
+}
+
+export class MariaDbDatabaseConnection extends EntityFrameworkRelationalDatabaseConnection implements IMariaDbDatabaseConnection {
+
+    constructor(data?: IMySqlDatabaseConnection) {
+        super(data);
+        this._discriminator = "MySqlDatabaseConnection";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): MySqlDatabaseConnection {
+        data = typeof data === 'object' ? data : {};
+        let result = new MySqlDatabaseConnection();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data;
+    }
+
+    clone(): MySqlDatabaseConnection {
+        const json = this.toJSON();
+        let result = new MySqlDatabaseConnection();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IMariaDbDatabaseConnection extends IEntityFrameworkRelationalDatabaseConnection {
 }
 
 export class SQLiteDatabaseConnection extends EntityFrameworkRelationalDatabaseConnection implements ISQLiteDatabaseConnection {

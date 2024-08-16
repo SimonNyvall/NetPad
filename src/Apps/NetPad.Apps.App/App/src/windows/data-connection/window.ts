@@ -1,5 +1,5 @@
 import {watch} from "@aurelia/runtime-html";
-import {DatabaseConnection, DataConnection, DataConnectionType, IDataConnectionService,} from "@application";
+import {DatabaseConnection, DataConnection, DataConnectionType, IDataConnectionService, MySqlDatabaseConnection,} from "@application";
 import {WindowBase} from "@application/windows/window-base";
 import {System, Util} from "@common";
 import {IDataConnectionView} from "./connection-views/idata-connection-view";
@@ -40,6 +40,10 @@ export class Window extends WindowBase {
             {
                 label: '<img src="/img/mysql.png" class="connection-type-logo"/> MySQL',
                 type: "MySQL"
+            },
+            {
+                label: '<img src="/img/mariadb.png" class="connection-type-logo"/> MariaDb',
+                type: "MariaDb"
             }
         ];
 
@@ -157,7 +161,7 @@ export class Window extends WindowBase {
             return new SqliteView(connection, this.dataConnectionService);
         }
 
-        if (connectionType === "MySQL") {
+        if (connectionType === "MySQL" || connectionType === "MariaDb") {
             return new MysqlView(connection, this.dataConnectionService);
         }
 
