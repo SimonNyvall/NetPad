@@ -132,7 +132,7 @@ electronize build /target custom "osx-arm64;mac" /electron-arch arm64 /manifest 
 Packaged files can be found in the `bin/Desktop` folder.
 
 > [!NOTE]
-> To Build flatpak files the flatpak` and `flatpak-builder` packages need to be installed. On Linux, the `/scripts/package-electron.sh` script can be used to package the Electron app, in which case packaged files can be found in the `/dist/` folder.
+> To Build `flatpak` files the `flatpak` and `flatpak-builder` packages need to be installed. On Linux, the `/scripts/package-electron.sh` script can be used to package the Electron app, in which case packaged files can be found in the `/dist/` folder.
 
 See the [Electron.NET docs](https://github.com/ElectronNET/Electron.NET#-build)
 for additional CLI options when packaging the app,
